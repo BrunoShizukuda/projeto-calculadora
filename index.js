@@ -2,6 +2,7 @@ const cellElements = document.querySelectorAll('[data-cell]')
 const board = document.querySelector('[data-board]')
 const winningMessageTextElement = document.querySelector('[data-winning-message-text]')
 const winningMessage = document.querySelector('[data-winning-message]')
+const winningMessageButton = document.querySelector('[data-restart-button]')
 
 let isCircleTurn;
 
@@ -20,12 +21,16 @@ const winningCombinations = [
 
 const startGame = () => {
     for(const cell of cellElements) {
+        cell.classList.remove('x')
+        cell.classList.remove('circle')
+        cell.removeEventListener('click', handleClick)
         cell.addEventListener('click', handleClick, { once: true})
     }
     
     isCircleTurn = false
 
     board.classList.add('x')
+    winningMessage.classList.remove('show-winning-message')
 }
 
 const endGame = (isDraw) => {
@@ -37,6 +42,8 @@ const endGame = (isDraw) => {
 
     winningMessage.classList.add("show-winning-message")
 }
+
+
 
 const checkForWin =(currentPlayer) => {
     return winningCombinations.some(combination => {
@@ -83,3 +90,5 @@ const handleClick = (e) => {
 }
 
 startGame()
+
+winningMessageButton.addEventListener('click', startGame)
